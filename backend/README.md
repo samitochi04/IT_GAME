@@ -12,6 +12,19 @@
 │   └── GET /api/attacks/categories/{category}
 └── Base de données (PostgreSQL)
 ```
+## Analyse des logs
+Analysez les fichiers PCAP de façon automatisée. 
+Détectez et catégorisez les attaques selon le référentiel MITRE ATT&CK, en modélisant 
+clairement les étapes : 
+• Initial access 
+• Execution 
+• Persistence 
+• Privilege escalation 
+• Defense evasion 
+• Credential access 
+• Discovery 
+• Lateral movement 
+• Collection
 
 ## Prérequis
 
