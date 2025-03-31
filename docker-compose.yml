@@ -33,5 +33,15 @@ services:
     volumes:
       - ./backend:/app
 
+  frontend:
+    build:
+      context: ./front
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    environment:
+      - API_URL=http://backend:5000
+
 volumes:
   postgres_data:
