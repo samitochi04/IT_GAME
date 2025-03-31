@@ -1,9 +1,7 @@
 import requests
-import json
-import subprocess
 from datetime import datetime
-from app import db
-from app.models.attack import Attack
+import os
+from app.core.attack_analyzer import AttackAnalyzer
 
 def download_pcap():
     try:
@@ -11,28 +9,28 @@ def download_pcap():
         response = requests.get(url)
 
         if response.status_code == 200:
+            # Create a temporary directory if it doesn't exist
+            temp_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'temp')
+            os.makedirs(temp_dir, exist_ok=True)
+            
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            pcap_file = f"/tmp/capture_{timestamp}.pcap"
+            pcap_file = os.path.join(temp_dir, f"capture_{timestamp}.pcap")
 
             with open(pcap_file, 'wb') as f:
                 f.write(response.content)
 
-            json_file = f"/tmp/capture_{timestamp}.json"
-            subprocess.run(['tshark', '-r', pcap_file, '-T', 'json'],
-                         stdout=open(json_file, 'w'))
-
-            with open(json_file, 'r') as f:
-                data = json.load(f)
-                attack = Attack(
-                    category='initial_access',
-                    technique_id='T1190',
-                    description='PCAP Analysis',
-                    indicators=data
-                )
-                db.session.add(attack)
-                db.session.commit()
+            analyzer = AttackAnalyzer()
+            results = analyzer.analyze_pcap(pcap_file)
             
-            return True
+            # Clean up
+            try:
+                os.remove(pcap_file)
+            except:
+                pass
+                
+            return results
     except Exception as e:
-        print(f"Error: {str(e)}")
-        return False
+        return {
+            'status': 'error',
+            'message': str(e)
+        }

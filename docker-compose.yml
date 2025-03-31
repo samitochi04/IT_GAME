@@ -1,35 +1,12 @@
 services:
-  db:
-    image: postgres:latest
-    environment:
-      - POSTGRES_DB=attacks_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=200410
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d attacks_db"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   backend:
     build:
       context: ./backend
     ports:
       - "5000:5000"
-    depends_on:
-      db:
-        condition: service_healthy
     environment:
       - FLASK_APP=app
       - FLASK_ENV=development
-      - POSTGRES_HOST=db
-      - POSTGRES_DB=attacks_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=200410
     volumes:
       - ./backend:/app
 
@@ -42,6 +19,3 @@ services:
       - backend
     environment:
       - API_URL=http://backend:5000
-
-volumes:
-  postgres_data:
