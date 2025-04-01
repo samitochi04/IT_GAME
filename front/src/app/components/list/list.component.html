@@ -1,0 +1,24 @@
+
+<h2>Liste des Logs</h2>
+
+<!-- Affichage d'un tableau -->
+<table border="1">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>IP source</th>
+      <th>Port Source</th>
+      <th>IP Destination</th>
+      <th>Port Destination</th>
+      <th>Information</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Utilisation de *ngFor pour afficher chaque log -->
+    <tr *ngFor="let log of logs">
+      <td>{{ log.id }}</td>  <!-- Affiche l'ID de chaque log -->
+      <td>{{ log.title }}</td>  <!-- Affiche le titre de chaque log -->
+      <td>{{ log.body }}</td>  <!-- Affiche le corps de chaque log -->
+    </tr>
+  </tbody>
+</table>
