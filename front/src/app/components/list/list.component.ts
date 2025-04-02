@@ -3,17 +3,18 @@ import { CommonModule } from '@angular/common';
 import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs';
 import { LogsService } from '../../services/api.service';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-list',
-  imports: [CommonModule],
+  imports: [CommonModule, MatTableModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
 export class ListComponent {
+  columnsToDisplay = ['Time', 'IP Source', 'IP Destination', 'Port Source', 'Port Destination', 'Information'];
   logs: any[] = [];
   private subscription!: Subscription;
-dataSource: any;
 
   constructor(private logsService: LogsService) {}
 
