@@ -1,0 +1,4 @@
+<button mat-fab [class]="logs?.data?.analysis?.statistics?.suspicious_packets === 0 ? 'no-suspicious' : 'suspicious'">
+    <mat-icon *ngIf="logs?.data?.analysis?.statistics?.suspicious_packets === 0">check</mat-icon>
+    <mat-icon *ngIf="logs?.data?.analysis?.statistics?.suspicious_packets > 0">warning</mat-icon>
+</button>
