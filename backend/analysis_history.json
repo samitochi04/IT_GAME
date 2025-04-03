@@ -1,0 +1,11 @@
+[
+    {
+        "timestamp": "2025-04-03T16:53:58.128054",
+        "filename": "chall_wshark7.pcap",
+        "infected_ip": "10.3.11.119",
+        "mac_address": "10:98:36:59:9d:cc",
+        "hostname": "WPAD",
+        "windows_user": "LAPTOP-SQSA42O$",
+        "success": false
+    }
+]

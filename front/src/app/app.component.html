@@ -1,6 +1,12 @@
 <div class="application">
     <app-header></app-header>
-    <app-list></app-list>
-</div>
 
-<app-suspicious-indicator></app-suspicious-indicator>
+    <div class="application-content">
+        <app-side-panel></app-side-panel>
+        <div class="application-content-main" #appContentContainer>
+            <app-list></app-list>    
+        </div>
+    </div>
+    
+    <app-suspicious-indicator></app-suspicious-indicator>
+</div>
