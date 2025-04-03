@@ -28,23 +28,30 @@ nest_asyncio.apply()
 # Create Flask app
 app = Flask(__name__)
 
-# Store latest results
+# Store latest results separately
 latest_results = {
     "infected_machine": None,
+    "infected_machine_updated": None,
     "submission_result": None,
-    "last_updated": None
+    "submission_updated": None
 }
 
-@app.route('/api/results', methods=['GET'])
-def get_results():
-    """API endpoint to get the latest infection detection results"""
+@app.route('/api/infected-machine', methods=['GET'])
+def get_infected_machine():
+    """API endpoint to get the latest infected machine information"""
     return jsonify({
         'status': 'success',
-        'timestamp': latest_results["last_updated"],
-        'data': {
-            'infected_machine': latest_results["infected_machine"],
-            'submission_result': latest_results["submission_result"]
-        }
+        'timestamp': latest_results["infected_machine_updated"],
+        'data': latest_results["infected_machine"]
+    })
+
+@app.route('/api/submission-result', methods=['GET'])
+def get_submission_result():
+    """API endpoint to get the latest submission result"""
+    return jsonify({
+        'status': 'success',
+        'timestamp': latest_results["submission_updated"],
+        'data': latest_results["submission_result"]
     })
 
 @app.after_request
@@ -532,12 +539,15 @@ def submit_results(info, filename):
     """Soumet les résultats à l'API"""
     global latest_results
     
+    # Update infected machine info immediately
+    latest_results["infected_machine"] = info
+    latest_results["infected_machine_updated"] = datetime.now().isoformat()
+    
     if not all(info.values()):
         print("Informations incomplètes, impossible de soumettre")
         save_analysis_history(filename, info, False)
-        latest_results["infected_machine"] = info
         latest_results["submission_result"] = {"error": "Incomplete information"}
-        latest_results["last_updated"] = datetime.now().isoformat()
+        latest_results["submission_updated"] = datetime.now().isoformat()
         return False
     
     payload = {
@@ -558,10 +568,9 @@ def submit_results(info, filename):
             result = response.json()
             print(f"Soumission réussie! Flag: {result.get('flag')}")
             
-            # Store results
-            latest_results["infected_machine"] = info
+            # Store only submission result
             latest_results["submission_result"] = result
-            latest_results["last_updated"] = datetime.now().isoformat()
+            latest_results["submission_updated"] = datetime.now().isoformat()
             
             # Save flag
             with open("flags.txt", "a") as f:
@@ -572,20 +581,18 @@ def submit_results(info, filename):
         else:
             print(f"Erreur lors de la soumission: {response.status_code} - {response.text}")
             
-            # Store error results
-            latest_results["infected_machine"] = info
+            # Store error result
             latest_results["submission_result"] = {"error": f"API Error: {response.status_code}"}
-            latest_results["last_updated"] = datetime.now().isoformat()
+            latest_results["submission_updated"] = datetime.now().isoformat()
             
             save_analysis_history(filename, info, False)
             return False
     except Exception as e:
         print(f"Erreur lors de la soumission: {e}")
         
-        # Store error results
-        latest_results["infected_machine"] = info
+        # Store error result
         latest_results["submission_result"] = {"error": str(e)}
-        latest_results["last_updated"] = datetime.now().isoformat()
+        latest_results["submission_updated"] = datetime.now().isoformat()
         
         save_analysis_history(filename, info, False)
         return False
