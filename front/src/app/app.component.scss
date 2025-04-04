@@ -1,5 +1,21 @@
 .application {
-    background-color: var(--color5);
+    background-color: rgba($color: #454545, $alpha: 0.7);
+    background-image: url('https://wallpapers.com/images/hd/minimalist-technology-1920-x-1200-wallpaper-5upk8gqub8mkiu3w.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-blend-mode: overlay;
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
+}
+
+.application-content {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    .application-content-main {
+        width: 100%;
+    }
 }

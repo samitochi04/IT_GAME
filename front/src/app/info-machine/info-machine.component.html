@@ -1,0 +1,34 @@
+<div *ngIf="selectedLog" class="details-container">
+    <h3>Détails du log sélectionné</h3>
+    <table mat-table [dataSource]="selectedLog">
+      <ng-container matColumnDef="ADMacD">
+        <td mat-cell *matCellDef="let logs"> {{ logs.IP_Mac_Destination }} </td>
+        <th mat-header-cell *matHeaderCellDef> Addresse Mac destination</th>        
+      </ng-container>
+      <ng-container matColumnDef="ADIP">
+        <td mat-cell *matCellDef="let logs"> {{ logs.destination_ip }} </td>
+        <th mat-header-cell *matHeaderCellDef> Addresse IP destination </th>
+      </ng-container>
+      <ng-container matColumnDef="Protocole">
+        <td mat-cell *matCellDef="let logs"> {{ logs.protocol }} </td>
+        <th mat-header-cell *matHeaderCellDef> Protocole </th>
+      </ng-container>
+      <ng-container matColumnDef="ADMacS">
+        <td mat-cell *matCellDef="let logs"> {{ logs.IP_Mac_Destination }} </td>
+        <th mat-header-cell *matHeaderCellDef> Addresse Mac Source </th>
+      </ng-container>
+      <ng-container matColumnDef="ADIPS">
+        <td mat-cell *matCellDef="let logs"> {{ logs.source_ip }} </td>
+        <th mat-header-cell *matHeaderCellDef> Addresse IP source </th>
+      </ng-container>
+      <ng-container matColumnDef="Info">
+        <td mat-cell *matCellDef="let logs"> {{ logs.info}} </td>
+        <th mat-header-cell *matHeaderCellDef> Info </th>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="['ADMacD', 'ADIP', 'Protocole', 'ADMacS', 'ADIPS', 'Info']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['ADMacD', 'ADIP', 'Protocole', 'ADMacS', 'ADIPS', 'Info']"></tr>
+      
+    </table>
+  </div>
+  

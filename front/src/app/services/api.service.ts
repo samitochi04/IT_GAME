@@ -6,9 +6,13 @@ import { BehaviorSubject, Observable, take } from 'rxjs';
   providedIn: 'root',
 })
 export class LogsService {
-  private apiUrl = 'http://localhost:5000/api/analyze/latest';
-  private logsSubject = new BehaviorSubject<any[]>([]);
+  private apiUrl = 'http://localhost:5000/api/pcap/analyze';
+  private logsSubject = new BehaviorSubject<any>(null);
   logs$ = this.logsSubject.asObservable();
+  containerRef: any = null;
+
+  private selectedLogSubject = new BehaviorSubject<any>(null);
+  selectedLog$ = this.selectedLogSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -20,6 +24,17 @@ export class LogsService {
   }
   getLogs(): Observable<any> {
     return this.http.get<any>(this.apiUrl);
+  }
+
+  onClickedRow(log: any): void {
+    this.selectedLogSubject.next([log]);
+  }
+
+  setContainerRef(containerRef: any): void {
+    this.containerRef = containerRef;
+  }
+  getContainerRef(): any {
+    return this.containerRef;
   }
 }
 
