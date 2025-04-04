@@ -3,3 +3,8 @@
 http://localhost:5000/api/pcap/analyze
 
 - Lancer: python app.py avant d'utiliser l'api
+
+## 2. POur afficher la machine infectée 
+http://localhost:5001/api/infected-machine
+
+- Lancer: python submit.py avant d'utiliser l'api
