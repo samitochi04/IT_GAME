@@ -11,3 +11,7 @@ http://localhost:5001/api/infected-machine
 http://localhost:5001/api/submission-result
 
 - Lancer: python submit.py avant d'utiliser l'api
+
+## 4. Pour les IP Suspicieuses
+http://localhost:5002/api/suspicious-ips
+ - Lancer: python suspic.py avant d'utiliser l'api
